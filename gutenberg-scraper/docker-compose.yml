@@ -2,31 +2,3 @@ version: "3"
 services:
   scraper:
     build: .
-
-  mongodb:
-    restart: always
-    image: mongo:4.2.3-bionic
-    container_name: mongodb
-    ports:
-      - 12321:27017
-    environment:
-      - MONGO_INITDB_DATABASE=books
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=password
-      
-  mongo-express:
-    restart: always
-    image: mongo-express
-    environment:
-            - ME_CONFIG_MONGODB_SERVER=mongodb
-            - ME_CONFIG_MONGODB_PORT=27017
-            - ME_CONFIG_MONGODB_ENABLE_ADMIN=false
-            - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
-            - ME_CONFIG_MONGODB_AUTH_USERNAME=admin
-            - ME_CONFIG_MONGODB_AUTH_PASSWORD=password
-            - ME_CONFIG_BASICAUTH_USERNAME=admin
-            - ME_CONFIG_BASICAUTH_PASSWORD=password
-    depends_on:
-            - mongodb
-    ports:
-          - 12322:8081
