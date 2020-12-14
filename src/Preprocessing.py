@@ -91,7 +91,6 @@ class Preprocessing():
         document = self.Cleaning(document)
         self.ExtractWords(document)
         self.RemoveStopwords()
-        print(self.noStopWords)
 
         return self.Lemmatizer()
 
