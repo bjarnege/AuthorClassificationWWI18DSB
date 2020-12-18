@@ -1,0 +1,4 @@
+### Setup
+
+Um die vorhandenen Skripts auszuführen, muss der Datensatz "Blog Authorship Corpus" bezogen werden, und unter dem Pfad ./resource/data/blogtext.csv abgelegt werden. 
+Außerdem müssen die entsprechenden Python-Module aus der requirements.txt installiert werden.
