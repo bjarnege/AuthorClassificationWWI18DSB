@@ -72,12 +72,16 @@ class Preprocessing():
             [f"{word} " for word in self.onlyWords.split() if not word.lower() in self.stopwords])
 
         return self.noStopWords
+    
+    def RemoveNonAsciiWords(self) -> None:
+        self.non_ascii  =  "".join([f"{word} " for word in self.noStopWords.split()\
+                                    if len(re.findall(r'[^\x00-\x7f]', word)) == 0])
 
     def Lemmatizer(self) -> str:
         """
         Lemmatize words using spaCy
         """
-        doc = self.nlp(self.noStopWords)
+        doc = self.nlp(self.non_ascii)
 
         self.lemmatizedWords = "".join(
             [f"{token.lemma_.lower()} " for token in doc])
@@ -91,7 +95,7 @@ class Preprocessing():
         document = self.Cleaning(document)
         self.ExtractWords(document)
         self.RemoveStopwords()
-
+        self.RemoveNonAsciiWords()
         return self.Lemmatizer()
 
     def ProcessMany(self, document_list) -> list:
