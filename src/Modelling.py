@@ -7,7 +7,7 @@ Created on Tue Dec 22 10:59:50 2020
 import numpy as np
 import pandas as pd
 
-class BaggingModelling:
+class StackingModelling:
     
     
     def __init__(self,  numerical_model, numerical_model_params,\
@@ -66,7 +66,7 @@ class BaggingModelling:
             
             # optimize the weights based on their contribution to the loss
             # bewusst text und numerical vertauscht, damit die Gegenwahrscheinlichkeit verwendet wird.
-            self.weights = np.array((self.loss_numerical, self.loss_text))/(self.loss_numerical +self.loss_text)
+            self.weights = np.array((self.loss_numerical, self.loss_text))/(self.loss_numerical + self.loss_text)
             
 
         if algo_type == "regression":
@@ -146,7 +146,7 @@ class BaggingModelling:
             loss_weights = np.absolute(y_pred - y).sum()
   
             # get loss for optimized weighting
-            self.weighted_prediction(X, (0.5,0.5), algo_type="regression")
+            self.weighted_prediction(X, algo_type="regression")
             y_pred = self.weighted_predictions
             loss_weights_optimized = np.absolute(y_pred - y).sum()
             

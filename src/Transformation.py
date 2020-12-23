@@ -6,7 +6,11 @@ Created on Tue Dec 22 10:48:53 2020
 """
 
 import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import StandardScaler
+from sklearn.compose import make_column_transformer
 from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 class StackedTransformation:
@@ -83,3 +87,17 @@ class StackedTransformation:
         
         return {"transformed_text": X_text_transformed,\
                "transformed_numerical": X_numerical_transformed}
+            
+            
+def transformation(X, y, target_variable, categorial_variables, \
+                   min_df_exponent, ngram_range, text_features, use_idf):
+
+    # use the  text transformer class to create two transformers for the textual and the numerical model
+    text_transformer = TfidfVectorizer(ngram_range=ngram_range, min_df=int(len(X)**(min_df_exponent)), use_idf=use_idf)
+    numerical_transformer = make_column_transformer((OneHotEncoder(handle_unknown="ignore"), categorial_variables)\
+                                                           , remainder=StandardScaler())
+
+    stacking = StackedTransformation(X, y, numerical_transformer, text_transformer, text_features)
+    stacking.build_transformer()
+    
+    return stacking

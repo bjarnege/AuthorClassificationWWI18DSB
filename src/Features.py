@@ -11,6 +11,12 @@ import numpy as np
 
 
 tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
+columns = ["Text length", "Number URLs", "Number mails",\
+          "Uppercase ratio", "Lowercase ratio", "Number ratio", "Symbol ratio",\
+          "Average letters per word", "Variance of letters per word", "Unique words ratio",\
+          "Average letters per sentence", "Variance of letters per sentence",\
+          "Average words per sentence", "Variance of words per sentence",\
+          "Maximal uppercase ratio per sentence", "Length of the maximal uppercase ratio sentence"]
 
 
 def buildFeatures(text):
@@ -57,10 +63,12 @@ def buildFeatures(text):
     max_sentence_uppercase_ratio = max(uppercase_per_sentence_ratio)
     max_sentence_uppercase_len = len(sentence_split[uppercase_per_sentence_ratio.index(max_sentence_uppercase_ratio)])
     
-    return len_text, nb_urls, nb_mails,\
-           uppercase_ratio, lowercase_ratio, number_ratio, symbol_ratio,\
-           avg_letters_per_word, var_letters_per_word, unique_words_ratio,\
-           avg_letters_per_sentence, var_letters_per_sentence,\
-           avg_words_per_sentence, var_words_per_sentence,\
-           max_sentence_uppercase_ratio, max_sentence_uppercase_len        
+    features = [len_text, nb_urls, nb_mails,\
+               uppercase_ratio, lowercase_ratio, number_ratio, symbol_ratio,\
+               avg_letters_per_word, var_letters_per_word, unique_words_ratio,\
+               avg_letters_per_sentence, var_letters_per_sentence,\
+               avg_words_per_sentence, var_words_per_sentence,\
+               max_sentence_uppercase_ratio, max_sentence_uppercase_len]
+    
+    return dict([(k,v) for v,k in zip(features,columns)])
            
