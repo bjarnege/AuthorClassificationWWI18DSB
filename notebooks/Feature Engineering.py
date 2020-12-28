@@ -41,17 +41,14 @@ from sklearn.metrics import classification_report
 
 # In[11]:
 
-
 # to speed up the process choose a sample size to randomly draw a sample of the whole daataset
-sample_size = 10**100 
+sample_size = 200_000 
 
 # remove all text that contain less than n chars
 min_chars_per_text = 50
 
 # which features will be used for the TF-IDF transformation
 text_features = "text_preprocessed"
-
-
 # # General Preprocessing
 # 
 # This part is independent from the cases
@@ -59,13 +56,10 @@ text_features = "text_preprocessed"
 # ### Initialization 
 
 # In[3]:
-
-
 df = pd.read_csv("../resource/data/blogtext.csv")
 
 # draw random sample for faster processing:
 df = df.sample(sample_size)
-
 
 # ### Filtering
 
@@ -161,16 +155,16 @@ case_gender = {"target_type": "classification",
                "grid_search_metric": "accuracy",
                "text_features": "text_preprocessed",
                "categorial_variables": ["topic","sign"],
-               "min_df_exponents" : [(1/4), (1/3), (1/2)],
-               "n_gram_range" : [(1,1), (1,2), (2,2)],
+               "min_df_exponents" : [(1/3), (1/2)],
+               "n_gram_range" : [(1,1), (1,2)],
                "use_tfidf": [True, False],
                "ml_algorithms_params": [(XGBClassifier,
                                    {'learning_rate': [0.1, 1, 1.5],
-                                   'max_depth': [3, 6, 9],
-                                   'n_estimators': [200, 600, 1200]}),
+                                   'max_depth': [3, 6],
+                                   'n_estimators': [400, 800]}),
                                   
                                   (SGDClassifier,
-                                   {"loss": ["hinge", "log", "modified_huber", "squared_hinge"],
+                                   {"loss": ["log", "modified_huber", "squared_hinge"],
                                    "penalty": ["l2", "l1", "elasticnet"],
                                    "alpha": [0.00001, 0.001]}),
                                   
@@ -185,18 +179,18 @@ case_topic = {"target_type": "classification",
                "grid_search_metric": "f1_weighted",
                "text_features": "text_preprocessed",
                "categorial_variables": ["gender","sign"],
-               "min_df_exponents" : [(1/4), (1/3), (1/2)],
-               "n_gram_range" : [(1,1), (1,2), (2,2)],
+               "min_df_exponents" : [(1/3), (1/2)],
+               "n_gram_range" : [(1,1), (1,2)],
                "use_tfidf": [True, False],
                "ml_algorithms_params": [(XGBClassifier,
                                    {'learning_rate': [0.1, 1, 1.5],
-                                   'max_depth': [3, 6, 9],
-                                   'n_estimators': [200, 600, 1200]}),
+                                   'max_depth': [3, 6],
+                                   'n_estimators': [400, 800]}),
                                   
                                   (SGDClassifier,
-                                   {"loss": ["hinge", "log", "modified_huber", "squared_hinge"],
+                                   {"loss": ["log", "modified_huber", "squared_hinge"],
                                    "penalty": ["l2", "l1", "elasticnet"],
-                                   "alpha": [0.01, 0.1, 1]}),
+                                   "alpha": [0.00001, 0.001]}),
                                   
                                   (LinearSVC,{"penalty": ["l1", "l2"],
                                    "loss": ["hinge", "squared_hinge"],
@@ -210,13 +204,13 @@ case_age = {"target_type": "regression",
                "grid_search_metric": "neg_mean_squared_error",
                "text_features": "text_preprocessed",
                "categorial_variables": ["topic","gender","sign"],
-               "min_df_exponents" : [(1/4), (1/3), (1/2)],
-               "n_gram_range" : [(1,1), (1,2), (2,2)],
+               "min_df_exponents" : [(1/3), (1/2)],
+               "n_gram_range" : [(1,1), (1,2)],
                "use_tfidf": [True, False],
                "ml_algorithms_params": [(XGBRegressor,
                                    {'learning_rate': [0.1, 1, 1.5],
-                                   'max_depth': [3, 6, 9],
-                                   'n_estimators': [200, 600, 1200]}),
+                                   'max_depth': [3, 6],
+                                   'n_estimators': [400, 800]}),
                                   
                                   (SGDRegressor,
                                    {"loss": ["squared_loss", "huber"],
@@ -234,18 +228,18 @@ case_topic = {"target_type": "classification",
                "grid_search_metric": "f1_weighted",
                "text_features": "text_preprocessed",
                "categorial_variables": ["gender","topic"],
-               "min_df_exponents" : [(1/4), (1/3), (1/2)],
-               "n_gram_range" : [(1,1), (1,2), (2,2)],
+               "min_df_exponents" : [(1/3), (1/2)],
+               "n_gram_range" : [(1,1), (1,2)],
                "use_tfidf": [True, False],
                "ml_algorithms_params": [(XGBClassifier,
                                    {'learning_rate': [0.1, 1, 1.5],
-                                   'max_depth': [3, 6, 9],
-                                   'n_estimators': [200, 600, 1200]}),
+                                   'max_depth': [3, 6],
+                                   'n_estimators': [400, 800]}),
                                   
                                   (SGDClassifier,
-                                   {"loss": ["hinge", "log", "modified_huber", "squared_hinge"],
+                                   {"loss": ["log", "modified_huber", "squared_hinge"],
                                    "penalty": ["l2", "l1", "elasticnet"],
-                                   "alpha": [0.01, 0.1, 1]}),
+                                   "alpha": [0.00001, 0.001]}),
                                   
                                   (LinearSVC,{"penalty": ["l1", "l2"],
                                    "loss": ["hinge", "squared_hinge"],
