@@ -120,7 +120,7 @@
                                     <img src={{"../static/images/topic/"+topic+".jpg"}} class="img-responsive" alt="Portfolio">
                                        <div class="portfolio-overlay">
                                           <div class="portfolio-item">
-                                             <h2>Topic</h2>
+                                             <h2><b>Topic</b></h2>
                                              <h2>{{topic}}</h2>
                                           </div>
                                        </div>
@@ -131,7 +131,7 @@
                                     <img src="../static/images/age.jpg" class="img-responsive" alt="Portfolio">
                                        <div class="portfolio-overlay">
                                           <div class="portfolio-item">
-                                             <h2>Age</h2>
+                                             <h2><b>Age</b></h2>
                                              <h2>{{age}}</h2>
                                           </div>
                                        </div>
@@ -142,7 +142,7 @@
                                     <img src={{"../static/images/gender/"+gender+".jpg"}} class="img-responsive" alt="Portfolio">
                                        <div class="portfolio-overlay">
                                           <div class="portfolio-item">
-                                             <h2>Gender</h2>
+                                             <h2><b>Gender</b></h2>
                                              <h2>{{gender}}</h2>
                                           </div>
                                        </div>
@@ -150,11 +150,13 @@
                               </div>
                               <div class="iso-box graphic template col-md-4 col-sm-6">
                                  <div class="portfolio-thumb">
-                                    <img src="../static/images/year.jpg" class="img-responsive" alt="Portfolio">
+                                    <img src="../static/images/clustering/clustering.jpg" class="img-responsive" alt="Portfolio">
                                        <div class="portfolio-overlay">
                                           <div class="portfolio-item">
-                                             <h2>Year of text creation</h2>
-                                             <h2>{{year}}</h2>
+                                             <h2><b>Characteristics from Clustering</b></h2>
+                                             {% for variable in clustering %} 
+                                             <h2>{{variable}}</h2>
+                                             {% endfor %}
                                           </div>
                                        </div>
                                  </div>
@@ -164,7 +166,7 @@
                                     <img src={{"../static/images/sign/"+sign+".jpg"}} class="img-responsive" alt="Portfolio">
                                        <div class="portfolio-overlay">
                                           <div class="portfolio-item">
-                                             <h2>Sign</h2>
+                                             <h2><b>Sign</b></h2>
                                              <h2>{{sign}}</h2>
                                           </div>
                                        </div>

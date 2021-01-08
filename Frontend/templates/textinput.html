@@ -111,8 +111,18 @@
                   <form id="text-input" method="post" action="/textinput_end">
                      <textarea name="input" class="form-control" placeholder="Insert a text..." rows="10" required></textarea>
                      <p><br/></p>
+                     <p>Do you want an improved result by specifying one target variable and submitting the values of the others?</p>
+                     <p>If yes, choose the target variable:<br/><br/></p>
+                     <select name="targetvariable" class="form-control">
+                        <option value="No">No specific target variable</option>
+                        <option value ="Age">Age</option>
+                        <option value ="Gender">Gender</option>
+                        <option value ="Topic">Topic</option>
+                        <option value ="Sign">Sign</option>
+                     </select>
+                     <p><br/></p>
                      <div class="contact-submit">
-                        <input type="submit" class="form-control submit" value="S T A R T   A N A L Y Z I N G   T H E   T E X T">
+                        <input type="submit" class="form-control submit" value="C O N T I N U E">
                      </div>
                   </form>
                </div>
