@@ -86,9 +86,8 @@ class StackedTransformation:
         X_text_transformed = self.text_transformer.transform(X_text)
         
         return {"transformed_text": X_text_transformed,\
-               "transformed_numerical": X_numerical_transformed}
-            
-            
+               
+    
 def transformation(X, y, target_variable, categorial_variables, \
                    min_df_exponent, ngram_range, text_features, use_idf):
 

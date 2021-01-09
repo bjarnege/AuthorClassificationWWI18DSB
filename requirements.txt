@@ -2,3 +2,6 @@ textblob
 pandas
 spacy
 fasttext
+tqdm
+xgboost
+scikit-learn

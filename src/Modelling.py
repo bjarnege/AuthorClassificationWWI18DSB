@@ -57,8 +57,13 @@ class StackingModelling:
             y_class_index = [class_label_dict[value] for value in y]
             
             # predict each row of X for each model
+            if str(type(self.text_model)) == "<class 'sklearn.svm._classes.LinearSVC'>":
+                y_pred_text = self.text_model._predict_proba_lr(X_transformed["transformed_text"])
+
+            else:
+                y_pred_text = self.text_model.predict_proba(X_transformed["transformed_text"])
+
             y_pred_num = self.numerical_model.predict_proba(X_transformed["transformed_numerical"])
-            y_pred_text = self.text_model.predict_proba(X_transformed["transformed_text"])
             
             # absolute loss for each model
             self.loss_numerical = sum([sum(np.delete(y_p, y_t)) for y_p, y_t in zip(y_pred_num,y_class_index)])
@@ -98,8 +103,12 @@ class StackingModelling:
             print("Check the data type of the input data")
 
         if algo_type == "classification":
-            predictions = (self.text_model.predict_proba(X_transformed["transformed_text"]),\
-                            self.numerical_model.predict_proba(X_transformed["transformed_numerical"]))
+            if str(type(self.text_model)) == "<class 'sklearn.svm._classes.LinearSVC'>":
+                prediction_text = self.text_model._predict_proba_lr(X_transformed["transformed_text"])
+            else:
+                prediction_text = self.text_model.predict_proba(X_transformed["transformed_text"])
+
+            predictions = (prediction_text, self.numerical_model.predict_proba(X_transformed["transformed_numerical"]))
             
             index = lambda x: np.argmax(x)
             

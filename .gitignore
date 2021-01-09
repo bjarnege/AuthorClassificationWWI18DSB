@@ -1,5 +1,8 @@
+*.pkl
+
 resource/data/blogtext.csv
 resource/data/blogtext_preprocessed.csv
+notebooks/*.pkl
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
