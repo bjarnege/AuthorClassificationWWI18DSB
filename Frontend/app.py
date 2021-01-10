@@ -1,38 +1,29 @@
 from flask import Flask, url_for, request, render_template, redirect, flash
 import random
 from PIL import Image, ImageFont, ImageDraw
+import pandas as pd
+import sys
+sys.path.append("../src")
+from RequestMapper import RequestMapper
 
+# Initialize the Pipeline Mapper
+print("Reading the model ...")
+pipelines = pd.read_pickle("../notebooks/Pipelines/ModelPipelines.pkl")
+rm = RequestMapper(pipelines)
 
 # Function to predict random values, delete when real model is implemented
-def randomModel(text, numerical=False, input=[], target=0):
-    genderClasses = ['male', 'female']
-    topicClasses = ['Architecture', 'Science','Fashion','Banking','indUnk','Publishing','InvestmentBanking','Engineering','Accounting','Maritime','Religion','Museums-Libraries','RealEstate','HumanResources','Military','Chemicals','Government','Marketing','Non-Profit','Tourism','Education','LawEnforcement-Security','Automotive','Biotech','Sports-Recreation','Transportation','Advertising','Technology','Manufacturing','Consulting','Environment','Construction','Student','Agriculture','Internet','Communications-Media','Law','BusinessServices','Telecommunications','Arts']
-    signClasses = ['Sagittarius','Gemini','Cancer','Pisces','Aquarius','Scorpio','Capricorn','Libra','Aries','Virgo','Taurus','Leo']
-    
+def randomModel(numerical=False):
     # Interpration of the clusters
     text_clusterClasses = ["Likes pictures and visuals","Affectionate writer","Negation-Lover","Communication junkie","Living the day","Planaholic","Undecided","Egozentric","Humorous","Playful","Blogger","Influencer","Politically interested","Selfish","Individualistc","Punchy","Undecided"]
     numerical_clusterClasses = ["Rude chatter","Annoyed youth","Technical interested","Hobby publisher","Trainee","Clarifying analyst","Highly intelligent","Chatting female","Committed laborer","Microblogger","Average writer","Daily writer","Emotional author","Enlightening youth","Busy leader","Technical insider","Preserving youth","Angry activist","Informatory specialist","Educational supporter","Moderate personality","Extraordinary personality","Open minded","Average Citizen","Explanatory author"]
     
-    age = random.randrange(13, 49)
-    gender = genderClasses[random.randrange(0,len(genderClasses))]
-    sign = signClasses[random.randrange(0,len(signClasses))]
-    topic = topicClasses[random.randrange(0,len(topicClasses))]
     text_cluster = text_clusterClasses[random.randrange(0,len(text_clusterClasses))]
     numerical_cluster = numerical_clusterClasses[random.randrange(0,len(numerical_clusterClasses))]
 
     if numerical == False:
-        return age, gender, sign, topic, [text_cluster]
+        return [text_cluster]
     else:
-        
-        if target == 'Age':
-            input[0] = age
-        elif target == 'Gender':
-            input[1] = gender
-        elif target == 'Sign':
-            input[2] = sign
-        elif target == 'Topic':
-            input[3] = topic
-        return input[0], input[1], input[2], input[3], [text_cluster, numerical_cluster]
+        return [text_cluster, numerical_cluster]
 
 # Function to create pictures out of year and age
 def center_text(text, name, color=(68, 68, 68),):
@@ -106,10 +97,15 @@ def textinput_end():
             # Define the labels as global as we need them in another function.
             global age, clustering, gender, sign, topic
 
-            # Now we are starting the text analyzation and produce a result.
-            age, gender, sign, topic, clustering = randomModel(text) #Model for only text features
+            # Now we are starting the text analyzation and produce the results.
+            clustering = randomModel()
+            age = int(rm.predict_text(text, "age"))
+            print(rm.predict_text(text, "age"))
+            gender = rm.predict_text(text, "gender")
+            sign = rm.predict_text(text, "sign")
+            topic = rm.predict_text(text, "topic")
 
-            # On the Website we use pictures for the result of age which is created now.
+            # On the website we use pictures for the result of age which is created now.
             center_text(str(age), 'age')
 
             return redirect(url_for('lastresult'))
@@ -138,7 +134,7 @@ def variableinput_end():
         # Define the labels as global as we need them in another function.
         global age, gender, topic, sign, clustering
         
-        # Ask for the variables whech need to be presubmitted
+        # Ask for the variables which need to be presubmitted
         try:
             age = int(request.form['age'])
         except:
@@ -158,9 +154,19 @@ def variableinput_end():
             sign = request.form['sign']
         except:
             sign = '0'
+        
+        # Create the stacked prediction for the target variable
+        if targetvariable == "Age":
+            age = int(rm.predict_numerical("age", text, sign=sign, topic=topic, gender=gender))
+        elif targetvariable == "Gender":
+            gender = rm.predict_numerical("gender", text, sign=sign, topic=topic, age=age)
+        elif targetvariable == "Topic":
+            topic = rm.predict_numerical("topic", text, sign=sign, age=age, gender=gender)
+        elif targetvariable == "Sign":
+            sign = rm.predict_numerical("sign", text, age=age, topic=topic, gender=gender)
 
-        # Now we are starting the text analyzation and produce a result.
-        age, gender, sign, topic, clustering = randomModel(text, numerical=True, input=[age, gender, sign, topic], target=targetvariable) #Model for stacked prediction
+        # Now we are getting results for the clustered variables
+        clustering = randomModel(numerical=True)
 
         # On the Website we use pictures for the result of age which is created now.
         center_text(str(age), 'age')
