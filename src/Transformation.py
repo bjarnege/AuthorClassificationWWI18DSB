@@ -63,11 +63,12 @@ class StackedTransformation:
         self.X_test_text_transformed = self.text_transformer.transform(self.X_test_text)
 
     def transform_one(self, x):
-        entry = pd.DataFrame(columns=x.keys())
+        entry = pd.DataFrame(columns=self.X_train.columns)
         entry = entry.append(x, ignore_index=True)
         
         # create datasets for each transformer
         entry_text = entry[self.text_features]
+        
         entry_numerical = entry.drop(self.text_features, axis=1)
         
         entry_numerical_transformed = self.numerical_transformer.transform(entry_numerical)
@@ -86,6 +87,7 @@ class StackedTransformation:
         X_text_transformed = self.text_transformer.transform(X_text)
         
         return {"transformed_text": X_text_transformed,\
+               "transformed_numerical": X_numerical_transformed}
                
     
 def transformation(X, y, target_variable, categorial_variables, \
