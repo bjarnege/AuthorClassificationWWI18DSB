@@ -13,7 +13,7 @@ from sklearn.linear_model import SGDClassifier, SGDRegressor
 
 class RequestMapper:
     
-    def __init__(self, pipelines):
+    def __init__(self, pipelines, pipelines_cluster):
         # storing and unpacking the pipelines
         self.pipelines = pipelines
         self.pipeline_mapping = {"age": pipelines.values[0],
@@ -21,6 +21,11 @@ class RequestMapper:
                                  "sign": pipelines.values[2],
                                  "topic": pipelines.values[3]}
         
+        self.pipelines_cluster = pipelines_cluster
+        self.tfidf = pipelines_cluster[0]
+        self.numerical_transformer_cluster = pipelines_cluster[1]
+        self.kmeans_text = pipelines_cluster[2]
+        self.kmeans_numerical = pipelines_cluster[3]
         # import other modules
         self.preprocessor = Preprocessing()
     
@@ -75,3 +80,22 @@ class RequestMapper:
                                                                                           algo_type=self.pipeline_mapping[target_variable]\
                                                                                           .algo_type)
         return prediction[0]
+    
+    def transform_cluster(self, mode="text", text=None, age=None, sign=None, gender=None, topic=None):
+        if mode == "text":
+            text_preprocessed = self.preprocessor.ProcessOne(text)
+            tfidf_text = self.tfidf.transform([text_preprocessed])
+            return self.kmeans_text.predict(tfidf_text)[0]
+
+        if mode == "numerical":
+            features = buildFeatures(text)
+            columns = {"gender": gender,
+                        "age": age,
+                        "topic": topic,
+                        "sign": sign}
+
+            data = {**columns, **features}
+            data = pd.DataFrame(columns=data.keys()).append(data, ignore_index=True)
+            
+            data_transformed = self.numerical_transformer_cluster.transform(data)
+            return self.kmeans_numerical.predict(data_transformed)[0]
