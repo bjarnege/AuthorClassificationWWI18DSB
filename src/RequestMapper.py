@@ -13,7 +13,7 @@ from sklearn.linear_model import SGDClassifier, SGDRegressor
 
 class RequestMapper:
     
-    def __init__(self, pipelines, pipelines_cluster):
+    def __init__(self, pipelines, pipelines_cluster, pipeline_knn):
         # storing and unpacking the pipelines
         self.pipelines = pipelines
         self.pipeline_mapping = {"age": pipelines.values[0],
@@ -21,11 +21,21 @@ class RequestMapper:
                                  "sign": pipelines.values[2],
                                  "topic": pipelines.values[3]}
         
-        self.pipelines_cluster = pipelines_cluster
+        # preprocessed dataset:
+        self.df_full_preprocessed = pd.read_pickle("./df_full_preprocessed.pkl")
+
+        # transformers for unsupervised algorithms (knn and KMeans)
         self.tfidf = pipelines_cluster[0]
-        self.numerical_transformer_cluster = pipelines_cluster[1]
+        self.numerical_transformer = pipelines_cluster[1]
+        
+        # KMeans instances
         self.kmeans_text = pipelines_cluster[2]
         self.kmeans_numerical = pipelines_cluster[3]
+        
+        # KNearestNeighbors instances
+        self.knn_text = pipeline_knn[2]
+        self.knn_numerical = pipeline_knn[3]
+        
         # import other modules
         self.preprocessor = Preprocessing()
     
@@ -81,12 +91,11 @@ class RequestMapper:
                                                                                           .algo_type)
         return prediction[0]
     
-    def transform_cluster(self, mode="text", text=None, age=None, sign=None, gender=None, topic=None):
+    def transformation_preprocessor(self, mode, text=None, age=None, sign=None, gender=None, topic=None):
         if mode == "text":
             text_preprocessed = self.preprocessor.ProcessOne(text)
-            tfidf_text = self.tfidf.transform([text_preprocessed])
-            return self.kmeans_text.predict(tfidf_text)[0]
-
+            return self.tfidf.transform([text_preprocessed])
+        
         if mode == "numerical":
             features = buildFeatures(text)
             columns = {"gender": gender,
@@ -96,6 +105,24 @@ class RequestMapper:
 
             data = {**columns, **features}
             data = pd.DataFrame(columns=data.keys()).append(data, ignore_index=True)
-            
-            data_transformed = self.numerical_transformer_cluster.transform(data)
+            return self.numerical_transformer.transform(data)
+        
+    def transform_cluster(self, mode="text", text=None, age=None, sign=None, gender=None, topic=None):
+        if mode == "text":
+            tfidf_text = self.transformation_preprocessor(mode, text)
+            return self.kmeans_text.predict(tfidf_text)[0]
+
+        if mode == "numerical":
+            data_transformed = self.transformation_preprocessor(mode, text, age, sign, gender, topic)
             return self.kmeans_numerical.predict(data_transformed)[0]
+        
+    def transform_knn(self, mode="text", text=None, age=None, sign=None, gender=None, topic=None):
+        if mode == "text":
+            neighbors_indexes = self.knn_text.\
+                                kneighbors(self.transformation_preprocessor(mode, text))
+            return self.df_full_preprocessed.iloc[neighbors_indexes[1][0]]["text_preprocessed"]
+
+        if mode == "numerical":
+            neighbors_indexes = self.knn_numerical.\
+                                kneighbors(self.transformation_preprocessor(mode, text, age, sign, gender, topic))
+            return self.df_full_preprocessed.iloc[neighbors_indexes[1][0]]["text_preprocessed"]
