@@ -13,7 +13,7 @@ from sklearn.linear_model import SGDClassifier, SGDRegressor
 
 class RequestMapper:
     
-    def __init__(self, pipelines, pipelines_cluster, pipeline_knn):
+    def __init__(self, df_full_preprocessed, pipelines, pipelines_cluster, pipeline_knn):
         # storing and unpacking the pipelines
         self.pipelines = pipelines
         self.pipeline_mapping = {"age": pipelines.values[0],
@@ -22,7 +22,7 @@ class RequestMapper:
                                  "topic": pipelines.values[3]}
         
         # preprocessed dataset:
-        self.df_full_preprocessed = pd.read_pickle("./df_full_preprocessed.pkl")
+        self.df_full_preprocessed = df_full_preprocessed
 
         # transformers for unsupervised algorithms (knn and KMeans)
         self.tfidf = pipelines_cluster[0]

@@ -1,4 +1,5 @@
 *.pkl
+*.rar
 
 resource/data/blogtext.csv
 resource/data/blogtext_preprocessed.csv
