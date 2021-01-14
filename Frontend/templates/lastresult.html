@@ -173,6 +173,13 @@
                                  </div>
                               </div>
                             </div>
+                            <p><br><br><br></p>
+                            <h3>Similar Text</h2>
+                                 <div style="height:350px;width:1125px;border:0px solid;overflow:auto;">
+                                    {% for line in knn_text %}
+                                    <p>{{line}}</p>
+                                    {% endfor%}
+                              </div>
                         </div>
                </div>
          </div>

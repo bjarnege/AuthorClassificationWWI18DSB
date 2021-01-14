@@ -7,23 +7,18 @@ sys.path.append("../src")
 from RequestMapper import RequestMapper
 
 # Initialize the Pipeline Mapper
-print("Reading the model ...")
-pipelines = pd.read_pickle("../notebooks/Pipelines/ModelPipelines.pkl")
-rm = RequestMapper(pipelines)
+print("Reading the models ...")
+pipelines_predictions = pd.read_pickle("../notebooks/Pipelines/ModelPipelines.pkl")
+pipelines_cluster = pd.read_pickle("../notebooks/Pipelines/ClusteringPipeline.pkl")
+pipelines_knn = pd.read_pickle("../notebooks/Pipelines/KNearestNeighborsPipeline.pkl")
 
-# Function to predict random values, delete when real model is implemented
-def randomModel(numerical=False):
-    # Interpration of the clusters
-    text_clusterClasses = ["Likes pictures and visuals","Affectionate writer","Negation-Lover","Communication junkie","Living the day","Planaholic","Undecided","Egozentric","Humorous","Playful","Blogger","Influencer","Politically interested","Selfish","Individualistc","Punchy","Undecided"]
-    numerical_clusterClasses = ["Rude chatter","Annoyed youth","Technical interested","Hobby publisher","Trainee","Clarifying analyst","Highly intelligent","Chatting female","Committed laborer","Microblogger","Average writer","Daily writer","Emotional author","Enlightening youth","Busy leader","Technical insider","Preserving youth","Angry activist","Informatory specialist","Educational supporter","Moderate personality","Extraordinary personality","Open minded","Average Citizen","Explanatory author"]
-    
-    text_cluster = text_clusterClasses[random.randrange(0,len(text_clusterClasses))]
-    numerical_cluster = numerical_clusterClasses[random.randrange(0,len(numerical_clusterClasses))]
+rm = RequestMapper("../notebooks/df_full_preprocessed.pkl", pipelines_predictions, pipelines_cluster, pipelines_knn)
 
-    if numerical == False:
-        return [text_cluster]
-    else:
-        return [text_cluster, numerical_cluster]
+
+
+# Name the clusters (index of the list equals the predicted cluster number)
+text_clusters = ["Up-to-date Person", "Average Citizen", "Negation-Lover","Self-referred Author","Egocentric Person"]
+numerical_clusters = ["Explanatory Author","Hobby Publisher","Daily Writer"]
 
 # Function to create pictures out of year and age
 def center_text(text, name, color=(68, 68, 68),):
@@ -95,15 +90,17 @@ def textinput_end():
         if targetvariable=='No':
 
             # Define the labels as global as we need them in another function.
-            global age, clustering, gender, sign, topic
+            global age, clustering, gender, sign, topic, knn_text
 
             # Now we are starting the text analyzation and produce the results.
-            clustering = randomModel()
+            clustering = [text_clusters[rm.transform_cluster(mode="text", text=text)]]
             age = int(rm.predict_text(text, "age"))
-            print(rm.predict_text(text, "age"))
             gender = rm.predict_text(text, "gender")
             sign = rm.predict_text(text, "sign")
             topic = rm.predict_text(text, "topic")
+
+            # Now we are predicitng a similar text via knn
+            knn_text = rm.transform_knn(mode="text", text=text)
 
             # On the website we use pictures for the result of age which is created now.
             center_text(str(age), 'age')
@@ -132,7 +129,7 @@ def variableinput_end():
     if request.method == 'POST':
 
         # Define the labels as global as we need them in another function.
-        global age, gender, topic, sign, clustering
+        global age, gender, topic, sign, clustering, knn_text
         
         # Ask for the variables which need to be presubmitted
         try:
@@ -166,7 +163,10 @@ def variableinput_end():
             sign = rm.predict_numerical("sign", text, age=age, topic=topic, gender=gender)
 
         # Now we are getting results for the clustered variables
-        clustering = randomModel(numerical=True)
+        clustering = [text_clusters[rm.transform_cluster(mode="text", text=text)], numerical_clusters[rm.transform_cluster(mode="numerical", text=text, age=age, sign=sign, gender=gender, topic=topic)]]
+
+        # Now we are predicting a similar text via knn
+        knn_text = rm.transform_knn(mode="numerical", text=text, age=age, sign=sign, gender=gender, topic=topic)
 
         # On the Website we use pictures for the result of age which is created now.
         center_text(str(age), 'age')
@@ -177,7 +177,7 @@ def variableinput_end():
 @app.route("/lastresult")
 def lastresult():
     try:
-        return render_template('lastresult.html', topic=topic, age=age, clustering=clustering, gender=gender, sign=sign, text=text)
+        return render_template('lastresult.html', topic=topic, age=age, clustering=clustering, gender=gender, sign=sign, text=text, knn_text=knn_text)
     except NameError:
         return render_template('textinput.html')
 
@@ -191,4 +191,4 @@ def team():
 # In our case we are executing the script. Therefore, __name__ will be equal to "__main__". 
 # That means the if conditional statement is satisfied and the app.run() method will be executed.
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='127.0.0.1', port=5000, debug=False)
