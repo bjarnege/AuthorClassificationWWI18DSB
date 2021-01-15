@@ -14,8 +14,6 @@ pipelines_knn = pd.read_pickle("../notebooks/Pipelines/KNearestNeighborsPipeline
 
 rm = RequestMapper("../notebooks/df_full_preprocessed.pkl", pipelines_predictions, pipelines_cluster, pipelines_knn)
 
-
-
 # Name the clusters (index of the list equals the predicted cluster number)
 text_clusters = ["Up-to-date Person", "Average Citizen", "Negation-Lover","Self-referred Author","Egocentric Person"]
 numerical_clusters = ["Explanatory Author","Hobby Publisher","Daily Writer"]
@@ -82,36 +80,10 @@ def textinput_end():
 
         # Get the taget variable
         global targetvariable
-
         targetvariable = request.form['targetvariable']
 
-        # If no target variable for an improved classification was submitted, then redirect directly to the result
-
-        if targetvariable=='No':
-
-            # Define the labels as global as we need them in another function.
-            global age, clustering, gender, sign, topic, knn_text
-
-            # Now we are starting the text analyzation and produce the results.
-            clustering = [text_clusters[rm.transform_cluster(mode="text", text=text)]]
-            age = int(rm.predict_text(text, "age"))
-            gender = rm.predict_text(text, "gender")
-            sign = rm.predict_text(text, "sign")
-            topic = rm.predict_text(text, "topic")
-
-            # Now we are predicitng a similar text via knn
-            knn_text = rm.transform_knn(mode="text", text=text)
-
-            # On the website we use pictures for the result of age which is created now.
-            center_text(str(age), 'age')
-
-            return redirect(url_for('lastresult'))
-        
-        # Otherwise ask for the other variables
-
-        else:
-
-            return redirect(url_for('variableinput'))
+        # Continue to set the values of the other variables except the target variables
+        return redirect(url_for('variableinput'))
 
 # This function returns the variableinput.html page which is used to input the values of the additional variables.
 @app.route("/variableinput")
@@ -154,13 +126,13 @@ def variableinput_end():
         
         # Create the stacked prediction for the target variable
         if targetvariable == "Age":
-            age = int(rm.predict_numerical("age", text, sign=sign, topic=topic, gender=gender))
+            age = int(rm.predict_weighted("age", text, sign=sign, topic=topic, gender=gender))
         elif targetvariable == "Gender":
-            gender = rm.predict_numerical("gender", text, sign=sign, topic=topic, age=age)
+            gender = rm.predict_weighted("gender", text, sign=sign, topic=topic, age=age)
         elif targetvariable == "Topic":
-            topic = rm.predict_numerical("topic", text, sign=sign, age=age, gender=gender)
+            topic = rm.predict_weighted("topic", text, sign=sign, age=age, gender=gender)
         elif targetvariable == "Sign":
-            sign = rm.predict_numerical("sign", text, age=age, topic=topic, gender=gender)
+            sign = rm.predict_weighted("sign", text, age=age, topic=topic, gender=gender)
 
         # Now we are getting results for the clustered variables
         clustering = [text_clusters[rm.transform_cluster(mode="text", text=text)], numerical_clusters[rm.transform_cluster(mode="numerical", text=text, age=age, sign=sign, gender=gender, topic=topic)]]
