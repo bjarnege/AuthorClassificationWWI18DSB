@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+
+	<!-- Site title
+   ================================================== -->
+	<title>Author profiling</title>
+
+	<!-- Bootstrap CSS
+   ================================================== -->
+	<link rel="stylesheet" href="../static/css/bootstrap.min.css">
+
+	<!-- Animate CSS
+   ================================================== -->
+	<link rel="stylesheet" href="../static/css/animate.min.css">
+
+	<!-- Font Icons CSS
+   ================================================== -->
+	<link rel="stylesheet" href="../static/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../static/css/ionicons.min.css">
+
+	<!-- Main CSS
+   ================================================== -->
+	<link rel="stylesheet" href="../static/css/style.css">
+
+	<!-- Google web font 
+   ================================================== -->	
+  <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,300' rel='stylesheet' type='text/css'>
+
+  <!-- Favicon
+  ================================================== -->
+  <link href="../static/images/favicon.ico" rel="shortcut icon"/>
+	
+</head>
+<body>
+
+
+<!-- Preloader section
+================================================== -->
+<div class="preloader">
+	<div class="sk-spinner sk-spinner-pulse"></div>
+</div>
+
+
+<!-- Navigation section
+================================================== -->
+<div class="nav-container">
+   <nav class="nav-inner transparent">
+      <div class="navbar">
+         <div class="container">
+            <div class="row">
+              <div class="brand">
+                <a href="/">Author Profiling</a>
+              </div>
+              <div class="navicon">
+                <div class="menu-container">
+                  <div class="circle dark inline">
+                    <i class="icon ion-navicon"></i>
+                  </div>
+                  <div class="list-menu">
+                    <i class="icon ion-close-round close-iframe"></i>
+                    <div class="intro-inner">
+                      <ul id="nav-menu">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="textinput">Text Input</a></li>
+                        <li><a href="lastresult">Last Result</a></li>
+                        <li><a href="team">Team</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+         </div>
+      </div>
+   </nav>
+</div>
+
+
+<!-- Header section
+================================================== -->
+<section id="header" class="header-one">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8">
+          <div class="header-thumb">
+              <h1 class="wow fadeIn" data-wow-delay="1.6s">Text Input</h1>
+              <h3 class="wow fadeInUp" data-wow-delay="1.9s">Here you can insert a text</h3>
+          </div>
+			</div>
+		</div>
+	</div>		
+</section>
+
+
+<!-- Portfolio section
+================================================== -->
+
+<section id="portfolio">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12 col-sm-12">
+            <center>
+               <!-- iso section -->
+               <div class="iso-section wow fadeInUp" data-wow-delay="2.6s">
+                  <form id="text-input" method="post" action="/textinput_end">
+                     <textarea name="input" class="form-control" placeholder="Insert a text..." rows="10" required></textarea>
+                     <p><br/></p>
+                     <p>Please choose the variable you want to predict:<br/><br/></p>
+                     <select name="targetvariable" class="form-control">
+                        <option value ="Age">Age</option>
+                        <option value ="Gender">Gender</option>
+                        <option value ="Topic">Topic</option>
+                        <option value ="Sign">Sign</option>
+                     </select>
+                     <p><br/></p>
+                     <div class="contact-submit">
+                        <input type="submit" class="form-control submit" value="C O N T I N U E">
+                     </div>
+                  </form>
+               </div>
+            </center>
+         </div>
+      </div>
+   </div>
+</section>
+
+<!-- Footer section
+================================================== -->
+<footer>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12">
+				<p class="wow fadeInUp"  data-wow-delay="0.3s">Copyright © 2020 AuthorProfiling @ DHBW Data Science</p>
+			</div>
+		</div>
+	</div>
+</footer>
+
+
+<!-- Javascript 
+================================================== -->
+<script src="../static/js/jquery.js"></script>
+<script src="../static/js/bootstrap.min.js"></script>
+<script src="../static/js/isotope.js"></script>
+<script src="../static/js/imagesloaded.min.js"></script>
+<script src="../static/js/wow.min.js"></script>
+<script src="../static/js/custom.js"></script>
+
+</body>
+</html>
