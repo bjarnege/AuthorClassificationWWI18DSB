@@ -3,16 +3,18 @@ import random
 from PIL import Image, ImageFont, ImageDraw
 import pandas as pd
 import sys
-sys.path.append("../src")
+sys.path.append("../")
 from RequestMapper import RequestMapper
 
 # Initialize the Pipeline Mapper
 print("Reading the models ...")
-pipelines_predictions = pd.read_pickle("../notebooks/Pipelines/ModelPipelines.pkl")
-pipelines_cluster = pd.read_pickle("../notebooks/Pipelines/ClusteringPipeline.pkl")
-pipelines_knn = pd.read_pickle("../notebooks/Pipelines/KNearestNeighborsPipeline.pkl")
+df_full_preprocessed = pd.read_pickle("../../resource/df_full_preprocessed.pkl")
+pipelines_predictions = pd.read_pickle("../../resource/Pipelines/ModelPipelines.pkl")
+pipelines_cluster = pd.read_pickle("../../resource/Pipelines/ClusteringPipeline.pkl")
+pipelines_knn = pd.read_pickle("../../resource/Pipelines/KNearestNeighborsPipeline.pkl")
 
-rm = RequestMapper("../notebooks/df_full_preprocessed.pkl", pipelines_predictions, pipelines_cluster, pipelines_knn)
+rm = RequestMapper(df_full_preprocessed, pipelines_predictions, pipelines_cluster, pipelines_knn)
+
 
 # Name the clusters (index of the list equals the predicted cluster number)
 text_clusters = ["Up-to-date Person", "Average Citizen", "Negation-Lover","Self-referred Author","Egocentric Person"]
@@ -163,4 +165,4 @@ def team():
 # In our case we are executing the script. Therefore, __name__ will be equal to "__main__". 
 # That means the if conditional statement is satisfied and the app.run() method will be executed.
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000, debug=False)
+    app.run(host='0.0.0.0', port=5000, debug=False)
