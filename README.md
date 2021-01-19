@@ -34,7 +34,7 @@ ist nicht möglich.
 ## Setup (docker)
 Um die Modelle über docker anzusprechen, bitte den folgenden Befehl ausführen:
 
-1. ```docker build -t authorclassificaation .```
+1. ```docker build -t authorclassification .```
 2. ```docker run -p 5000:5000 authorclassification```
 
 Aufgrund der Dateigröße ist hier leider ein wenig Geduld erfodrerlich.
