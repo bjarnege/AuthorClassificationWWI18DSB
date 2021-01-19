@@ -1,0 +1,11 @@
+*.zip
+.git
+.ipynb_checkpoints/*
+/notebooks/*
+/unused/*
+Dockerfile
+.DS_Store
+.gitignore
+README.md
+/resource/data
+/resource/Model*

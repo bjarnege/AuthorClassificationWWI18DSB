@@ -10,6 +10,7 @@ numpy == 1.18.5
 pandas == 1.2.0
 pandas_profiling == 2.9.0
 scikit_learn == 0.24.0
+setuptools
 spacy == 2.2.*
 textblob == 0.15.3
 tqdm == 4.47.0

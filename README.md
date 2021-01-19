@@ -5,27 +5,44 @@
 
 
 
-## Vorbereitung (MISSING)
+## Vorbereitung
 Um die Module verwenden zu können, müssen vorbereitend, die fehlender Binärdateien bezogen werden, welche Trainierte Modelle und Daten beeinhalten.
 
-1. Herunterladen fehlender Binärdateien, welche Modelle und Daten enthalten
+Dies wird durchgeführt, indem aus dem Hauptverzeichnis heraus die Datei ```setup.py``` ausgeführt wird:
 
-## Setup (manuell) (MISSING)
+```python ./scr/setup.py```
+
+Bitte beachten, dass die fehlenden Dateien etwa 4.14 GB groß sind und der Download daher entsprechend lange dauert.
+Sollte das obige Skirpt nicht dazu führen, dass der Ordner ```resource``` entsteht, kann die Datei manuell unter [Google Drive](https://drive.google.com/file/d/1-UMB3mltSgvWE-JxduJW9GZaniXmAa3w/view?usp=sharing) bezogen werden.
+
+
+## Setup (manuell)
 Um die Modelle zu verwenden, muss wie folgt verfahren werden:
 
-1. Installieren die benötigten Python-libaries
+1. Installieren der benötigten Python-libaries
+
 ```pip install -r requirements.txt```
 
 2. Ausführen der Flask-APP
+
 `` cd ./src/frontend/``
+
 ```python ./app.py```
 Achtung: Es ist notwendig, die app.py Datei direkt aus dem Ordner auszuführen! Ein Ausführen über bspw. ``` python ./src/frontend```
 ist nicht möglich.
 
-## Setup (docker-compose) (MISSING)
-Um die Modelle über docker-compose anzusprechen, bitte den folgenden Befehl ausführen:
-```docker-compose up --build```
+## Setup (docker)
+Um die Modelle über docker anzusprechen, bitte den folgenden Befehl ausführen:
 
+1. ```docker build -t authorclassificaation .```
+2. ```docker run -p 5000:5000 authorclassification```
+
+Aufgrund der Dateigröße ist hier leider ein wenig Geduld erfodrerlich.
+
+## Notebooks & Module
+
+Die Notebooks die im Rahmen des Integrationsseminars erstellt worden sind, befinden sich in dem Ordner ``` notebooks```. Diese lassen sich nicht innerhallb des Docker-Containers ausführen, können aber sofern die benötigten Module lokal installiert worden sind, und der obige Schritt ```Vorbereitungen``` durchgeüfhrt worden ist, eingesehen und verwendet werden.
+Die erstellten Module lassen sich innerhalb des ```src```-Ordners finden.
 
 ## Frontend nutzen
 Um die trainierten Modelle nutzerfreundlich über ein Frontend auf dem loclahost nutzen zu können,sind folgende Schritte zu befolgen:
