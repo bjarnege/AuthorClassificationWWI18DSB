@@ -7,11 +7,13 @@ resource/data/blogtext.csv
 resource/data/blogtext_preprocessed.csv
 notebooks/*.pkl
 
+.ipynb_checkpoints
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 
+*__pycache
 # C extensions
 *.so
 
