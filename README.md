@@ -4,8 +4,8 @@ Das Github-Repository muss für die Nutzung zunächst heruntergeladen werden. Di
 
 ## Übersicht 
 * [Vorbereitung](#vorbereitung)
-* [Setup (manuell)](#setup (manuell))
-* [Setup (docker)](#setup (docker))
+* [Setup (manuell)](#setup-(manuell))
+* [Setup (docker)](#setup-(docker))
 * [Notebooks & Module](#notebooks_module)
 * [Frontend](#frontend)
 
@@ -51,7 +51,7 @@ Die erstellten Module lassen sich innerhalb des ```src```-Ordners finden.
 
 ## Frontend
 Um die trainierten Modelle nutzerfreundlich über ein Frontend auf dem loclahost nutzen zu können, sind folgende Schritte zu befolgen:
-1. Ausführung der Anweisungen unter [Setup (manuell)](#setup (manuell)) oder alternativ unter [Setup (docker)](#setup (docker)). Für die zweite Variante muss [Docker, beziehungsweise Docker Desktop](https://www.docker.com/get-started) installiert sein.
+1. Ausführung der Anweisungen unter [Setup (manuell)](#setup-(manuell)) oder alternativ unter [Setup (docker)](#setup-(docker)). Für die zweite Variante muss [Docker, beziehungsweise Docker Desktop](https://www.docker.com/get-started) installiert sein.
 2. Wenn Der Flask-Server entweder manuell oder durch den Docker Container gestartet wurde, kann das Frontend über den Browser unter folgendem Link erreicht werden: [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
 
 **Im folgenden wird die Nutzung des grafischen Oberfläche genauer beschrieben:**\
