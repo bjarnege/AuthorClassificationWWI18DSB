@@ -4,9 +4,8 @@ Das Github-Repository muss für die Nutzung zunächst heruntergeladen werden. Di
 
 ## Übersicht 
 * [Vorbereitung](#vorbereitung)
-* [Setup (manuell)](#setup-(manuell))
-* [Setup (docker)](#setup-(docker))
-* [Notebooks & Module](#notebooks_module)
+* [Setup](#setup)
+* [Notebooks und Module](#notebooks-und-module)
 * [Frontend](#frontend)
 
 
@@ -21,7 +20,11 @@ Bitte beachten, dass die fehlenden Dateien etwa 4.14 GB groß sind und der Downl
 Sollte das obige Skirpt nicht dazu führen, dass der Ordner ```resource``` entsteht, kann die Datei manuell unter [Google Drive](https://drive.google.com/file/d/1-UMB3mltSgvWE-JxduJW9GZaniXmAa3w/view?usp=sharing) bezogen werden.
 
 
-## Setup (manuell)
+## Setup
+Das Setup kann entweder manuell oder mit Hilfe von docker geschehen.
+
+#### Manuelles Setup
+
 Um die Modelle zu verwenden, muss wie folgt verfahren werden:
 
 1. Installieren der benötigten Python-libaries
@@ -36,7 +39,10 @@ Um die Modelle zu verwenden, muss wie folgt verfahren werden:
 Achtung: Es ist notwendig, die app.py Datei direkt aus dem Ordner auszuführen! Ein Ausführen über bspw. ``` python ./src/frontend```
 ist nicht möglich.
 
-## Setup (docker)
+<br/>
+
+#### Setup mit Hilfe von Docker
+
 Um die Modelle über docker anzusprechen, bitte den folgenden Befehl ausführen:
 
 1. ```docker build -t authorclassification .```
@@ -44,14 +50,14 @@ Um die Modelle über docker anzusprechen, bitte den folgenden Befehl ausführen:
 
 Aufgrund der Dateigröße ist hier leider ein wenig Geduld erfodrerlich.
 
-## Notebooks & Module
+## Notebooks und Module
 
 Die Notebooks die im Rahmen des Integrationsseminars erstellt worden sind, befinden sich in dem Ordner ``` notebooks```. Diese lassen sich nicht innerhallb des Docker-Containers ausführen, können aber sofern die benötigten Module lokal installiert worden sind, und der obige Schritt ```Vorbereitungen``` durchgeüfhrt worden ist, eingesehen und verwendet werden.
 Die erstellten Module lassen sich innerhalb des ```src```-Ordners finden.
 
 ## Frontend
 Um die trainierten Modelle nutzerfreundlich über ein Frontend auf dem loclahost nutzen zu können, sind folgende Schritte zu befolgen:
-1. Ausführung der Anweisungen unter [Setup (manuell)](#setup-(manuell)) oder alternativ unter [Setup (docker)](#setup-(docker)). Für die zweite Variante muss [Docker, beziehungsweise Docker Desktop](https://www.docker.com/get-started) installiert sein.
+1. Zunächst muss eine der beiden Setupvarianten unter [Setup](#setup) ausgeführt werden. Für die zweite Variante muss [Docker, beziehungsweise Docker Desktop](https://www.docker.com/get-started) installiert sein.
 2. Wenn Der Flask-Server entweder manuell oder durch den Docker Container gestartet wurde, kann das Frontend über den Browser unter folgendem Link erreicht werden: [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
 
 **Im folgenden wird die Nutzung des grafischen Oberfläche genauer beschrieben:**\
