@@ -36,6 +36,7 @@ Um die Modelle zu verwenden, muss wie folgt verfahren werden:
 `` cd ./src/frontend/``
 
 ```python ./app.py```
+
 Achtung: Es ist notwendig, die app.py Datei direkt aus dem Ordner auszuführen! Ein Ausführen über bspw. ``` python ./src/frontend```
 ist nicht möglich.
 
