@@ -7,6 +7,6 @@ RUN apt-get update && \
     apt-get -y install gcc mono-mcs
 RUN pip install -r requirements.txt
 RUN python -m nltk.downloader punkt
-COPY ./resources/arial.ttf /usr/share/fonts/truetype/arial.ttf
+COPY ./resource/arial.ttf /usr/share/fonts/truetype/arial.ttf
 CMD cd ./src/frontend && python ./app.py
 EXPOSE 5000
