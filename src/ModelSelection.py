@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Dec 23 13:22:51 2020
-
-@author: Bjarne Gerdes
-"""
-
 import pandas as pd
 from tqdm import tqdm
 from itertools import product

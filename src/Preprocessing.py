@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Dec  9 10:02:33 2020
-
-@author: Bjarne Gerdes
-"""
 from textblob import TextBlob
 from tqdm import tqdm
 import spacy

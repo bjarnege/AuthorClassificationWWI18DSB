@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Dec 22 10:43:40 2020
-
-@author: Bjarne Gerdes
-"""
-
 import re
 import nltk.data
 import numpy as np
